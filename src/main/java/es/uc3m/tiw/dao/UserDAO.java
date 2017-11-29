@@ -9,5 +9,6 @@ import es.uc3m.tiw.entities.User;
 
 public interface UserDAO extends CrudRepository<User, Long>{
 	public List<User> findByEmailAndPassword(String email, String password);
+	public User findByEventsId(Long id);
 	public List<User> findAll();
 }

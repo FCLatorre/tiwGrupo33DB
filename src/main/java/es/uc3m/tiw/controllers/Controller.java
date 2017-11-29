@@ -78,6 +78,12 @@ public class Controller {
 		return eventDAO.findOne(id);
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, value="/events/{id}/user")
+	public User getUserFromEvent(@PathVariable Long id){
+		Event ev = eventDAO.findOne(id);
+		return userDAO.findByEventsId(id);
+	}
+	
 	@RequestMapping(method=RequestMethod.GET, value="/categories")
 	public List<Category> getCategories(@RequestParam(value="email",required=false) String email, @RequestParam(value="password",required=false) String password){
 		if(email != null && password != null) {
