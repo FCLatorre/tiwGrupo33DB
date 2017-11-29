@@ -2,6 +2,9 @@ package es.uc3m.tiw.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 
@@ -39,6 +42,7 @@ public class User implements Serializable {
 
 	//bi-directional many-to-one association to Event
 	@OneToMany(mappedBy="user")
+	@JsonManagedReference
 	private List<Event> events;
 
 	//bi-directional many-to-one association to Receipt
