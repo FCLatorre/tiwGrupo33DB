@@ -80,7 +80,6 @@ public class Controller {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/events/{id}/user")
 	public User getUserFromEvent(@PathVariable Long id){
-		Event ev = eventDAO.findOne(id);
 		return userDAO.findByEventsId(id);
 	}
 	
@@ -100,7 +99,6 @@ public class Controller {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/categories/{name}/events")
 	public List<Event> getEventsFromCategory(@PathVariable String name){
-		Category cat = categoryDAO.findByName(name);
-		return eventDAO.findByCategoryBean(cat);
+		return eventDAO.findByCategoryBeanName(name);
 	}
 }

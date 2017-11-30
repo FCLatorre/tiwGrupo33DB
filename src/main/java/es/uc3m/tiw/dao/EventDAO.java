@@ -10,5 +10,5 @@ import es.uc3m.tiw.entities.Event;
 
 public interface EventDAO extends CrudRepository<Event, Long>{
 	public List<Event> findAll();
-	public List<Event> findByCategoryBean(Category cat);
+	public List<Event> findByCategoryBeanName(String name);
 }
