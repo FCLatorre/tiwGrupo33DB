@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.math.BigDecimal;
@@ -49,21 +50,25 @@ public class Event implements Serializable {
 	//bi-directional many-to-one association to Category
 	@ManyToOne
 	@JoinColumn(name="category")
-	@JsonManagedReference
+	//@JsonManagedReference
+	@JsonIgnore
 	private Category categoryBean;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="iduser")
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonIgnore
 	private User user;
 
 	//bi-directional many-to-one association to Receipt
 	@OneToMany(mappedBy="event")
+	@JsonIgnore
 	private List<Receipt> receipts;
 
 	//bi-directional many-to-one association to Ticket
 	@OneToMany(mappedBy="event")
+	@JsonIgnore
 	private List<Ticket> ticketsSet;
 
 	public Event() {

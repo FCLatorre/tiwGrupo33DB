@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -23,7 +24,8 @@ public class Category implements Serializable {
 
 	//bi-directional many-to-one association to Event
 	@OneToMany(mappedBy="categoryBean")
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonIgnore
 	private List<Event> events;
 
 	public Category() {
