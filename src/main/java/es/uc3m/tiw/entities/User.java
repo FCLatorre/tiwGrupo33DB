@@ -32,14 +32,6 @@ public class User implements Serializable {
 
 	private String surename;
 
-	//bi-directional many-to-one association to Conversation
-	@OneToMany(mappedBy="user1")
-	private List<Conversation> conversations1;
-
-	//bi-directional many-to-one association to Conversation
-	@OneToMany(mappedBy="user2")
-	private List<Conversation> conversations2;
-
 	//bi-directional many-to-one association to Event
 	@OneToMany(mappedBy="user")
 	@JsonManagedReference
@@ -98,50 +90,6 @@ public class User implements Serializable {
 
 	public void setSurename(String surename) {
 		this.surename = surename;
-	}
-
-	public List<Conversation> getConversations1() {
-		return this.conversations1;
-	}
-
-	public void setConversations1(List<Conversation> conversations1) {
-		this.conversations1 = conversations1;
-	}
-
-	public Conversation addConversations1(Conversation conversations1) {
-		getConversations1().add(conversations1);
-		conversations1.setUser1(this);
-
-		return conversations1;
-	}
-
-	public Conversation removeConversations1(Conversation conversations1) {
-		getConversations1().remove(conversations1);
-		conversations1.setUser1(null);
-
-		return conversations1;
-	}
-
-	public List<Conversation> getConversations2() {
-		return this.conversations2;
-	}
-
-	public void setConversations2(List<Conversation> conversations2) {
-		this.conversations2 = conversations2;
-	}
-
-	public Conversation addConversations2(Conversation conversations2) {
-		getConversations2().add(conversations2);
-		conversations2.setUser2(this);
-
-		return conversations2;
-	}
-
-	public Conversation removeConversations2(Conversation conversations2) {
-		getConversations2().remove(conversations2);
-		conversations2.setUser2(null);
-
-		return conversations2;
 	}
 
 	public List<Event> getEvents() {
