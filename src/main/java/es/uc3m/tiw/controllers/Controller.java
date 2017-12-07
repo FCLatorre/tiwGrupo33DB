@@ -35,7 +35,7 @@ public class Controller {
 	CategoryDAO categoryDAO;
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/users")
+	@RequestMapping(method=RequestMethod.GET, value="/api/users")
 	public List<User> getUsers(@RequestParam(value="email",required=false) String email, @RequestParam(value="password",required=false) String password){
 		if(email != null && password != null) {
 			return userDAO.findByEmailAndPassword(email, password);
@@ -45,25 +45,25 @@ public class Controller {
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/users/{id}")
+	@RequestMapping(method=RequestMethod.GET, value="/api/users/{id}")
 	public User getUserById(@PathVariable Long id){
 		return userDAO.findOne(id);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.POST, value="/users")
+	@RequestMapping(method=RequestMethod.POST, value="/api/users")
 	public User saveUser(@RequestBody @Validated User user){
 		return userDAO.save(user);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.DELETE, value="/users/{id}")
+	@RequestMapping(method=RequestMethod.DELETE, value="/api/users/{id}")
 	public void deleteUser(@PathVariable Long id){
 		userDAO.delete(id);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.PUT, value="/users/{id}")
+	@RequestMapping(method=RequestMethod.PUT, value="/api/users/{id}")
 	public User updateUser(@PathVariable Long id, @RequestBody @Validated User user){
 		User updateUs = userDAO.findOne(id);
 		updateUs.setName(user.getName());
@@ -76,7 +76,7 @@ public class Controller {
 	 */
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/events")
+	@RequestMapping(method=RequestMethod.GET, value="/api/events")
 	public List<Event> getEvents(@RequestParam(value="email",required=false) String email, @RequestParam(value="password",required=false) String password){
 		if(email != null && password != null) {
 			//Implementar filtros de búsqueda
@@ -87,31 +87,31 @@ public class Controller {
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/events/{id}")
+	@RequestMapping(method=RequestMethod.GET, value="/api/events/{id}")
 	public Event getEventById(@PathVariable Long id){
 		return eventDAO.findOne(id);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/events/{id}/user")
+	@RequestMapping(method=RequestMethod.GET, value="/api/events/{id}/user")
 	public User getUserFromEvent(@PathVariable Long id){
 		return userDAO.findByEventsId(id);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.POST, value="/events")
+	@RequestMapping(method=RequestMethod.POST, value="/api/events")
 	public Event saveEvent(@RequestParam(value="category",required=true) String category, @RequestParam(value="user",required=true) Long userId,@RequestBody @Validated Event event){
 		event.setCategoryBean(categoryDAO.findByName(category));
 		event.setUser(userDAO.findOne(userId));
 		return eventDAO.save(event);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/events/{id}")
+	@RequestMapping(method=RequestMethod.DELETE, value="/api/events/{id}")
 	public void deleteEvent(@PathVariable Long id){
 		eventDAO.delete(id);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/events/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.PUT, value="/api/events/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Event updateEvent(@RequestParam(value="category",required=true) String category, @RequestParam(value="user",required=true) Long userId,@PathVariable Long id, @RequestBody @Validated Event event){
 		Event updateEv = eventDAO.findOne(id);
 		updateEv.setDate(event.getDate());
@@ -129,13 +129,13 @@ public class Controller {
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/users/{id}/events")
+	@RequestMapping(method=RequestMethod.GET, value="/api/users/{id}/events")
 	public List<Event> getEventsFromUser(@PathVariable Long id){
 		return eventDAO.findByUserId(id);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/users/{userid}/events/{eventid}")
+	@RequestMapping(method=RequestMethod.GET, value="/api/users/{userid}/events/{eventid}")
 	public Event getEventFromUser(@PathVariable Long userid, @PathVariable Long eventid){
 		return eventDAO.findByIdAndUserId(userid, eventid);
 	}
@@ -146,7 +146,7 @@ public class Controller {
 	 */
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/categories")
+	@RequestMapping(method=RequestMethod.GET, value="/api/categories")
 	public List<Category> getCategories(@RequestParam(value="email",required=false) String email, @RequestParam(value="password",required=false) String password){
 		if(email != null && password != null) {
 			return categoryDAO.findAll();
@@ -156,42 +156,35 @@ public class Controller {
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/categories/{name}")
+	@RequestMapping(method=RequestMethod.GET, value="/api/categories/{name}")
 	public Category getCategoryById(@PathVariable String name){
 		return categoryDAO.findByName(name);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/categories/{name}/events")
+	@RequestMapping(method=RequestMethod.GET, value="/api/categories/{name}/events")
 	public List<Event> getEventsFromCategory(@PathVariable String name){
 		return eventDAO.findByCategoryBeanName(name);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.GET, value="/categories/{name}/events/{id}")
+	@RequestMapping(method=RequestMethod.GET, value="/api/categories/{name}/events/{id}")
 	public Event getEventFromCategory(@PathVariable String name, @PathVariable Long id){
 		return eventDAO.findByIdAndCategoryBeanName(id, name);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.POST, value="/categories")
+	@RequestMapping(method=RequestMethod.POST, value="/api/categories")
 	public Category saveCategory(@RequestBody @Validated Category category){
 		return categoryDAO.save(category);
 	}
 	
 	//OK
-	@RequestMapping(method=RequestMethod.DELETE, value="/categories/{name}")
+	@RequestMapping(method=RequestMethod.DELETE, value="/api/categories/{name}")
 	public void deleteCategory(@PathVariable String name){
 		categoryDAO.delete(categoryDAO.findByName(name));
 	}
 	
-	//??? Not working properly
-	@RequestMapping(method=RequestMethod.PUT, value="/categories/{name}")
-	public Category updateCategory(@PathVariable String name, @RequestBody @Validated Category category){
-		Category updateCat = categoryDAO.findByName(name);
-		updateCat.setName(category.getName());
-		return categoryDAO.save(updateCat);
-	}
 	
 	/**
 	 * 
