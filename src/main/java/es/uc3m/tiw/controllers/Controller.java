@@ -79,6 +79,7 @@ public class Controller {
 	@RequestMapping(method=RequestMethod.GET, value="/events")
 	public List<Event> getEvents(@RequestParam(value="email",required=false) String email, @RequestParam(value="password",required=false) String password){
 		if(email != null && password != null) {
+			//Implementar filtros de búsqueda
 			return eventDAO.findAll();
 		} else {
 			return eventDAO.findAll();
@@ -127,6 +128,18 @@ public class Controller {
 		return eventDAO.save(updateEv);
 	}
 	
+	//OK
+	@RequestMapping(method=RequestMethod.GET, value="/users/{id}/events")
+	public List<Event> getEventsFromUser(@PathVariable Long id){
+		return eventDAO.findByUserId(id);
+	}
+	
+	//OK
+	@RequestMapping(method=RequestMethod.GET, value="/users/{userid}/events/{eventid}")
+	public Event getEventFromUser(@PathVariable Long userid, @PathVariable Long eventid){
+		return eventDAO.findByIdAndUserId(userid, eventid);
+	}
+
 	/**
 	 * 
 	 * CATEGORIES
@@ -155,6 +168,12 @@ public class Controller {
 	}
 	
 	//OK
+	@RequestMapping(method=RequestMethod.GET, value="/categories/{name}/events/{id}")
+	public Event getEventFromCategory(@PathVariable String name, @PathVariable Long id){
+		return eventDAO.findByIdAndCategoryBeanName(id, name);
+	}
+	
+	//OK
 	@RequestMapping(method=RequestMethod.POST, value="/categories")
 	public Category saveCategory(@RequestBody @Validated Category category){
 		return categoryDAO.save(category);
@@ -173,4 +192,10 @@ public class Controller {
 		updateCat.setName(category.getName());
 		return categoryDAO.save(updateCat);
 	}
+	
+	/**
+	 * 
+	 * TICKETS and RECEIPTS
+	 */
+	
 }
