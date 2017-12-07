@@ -2,6 +2,8 @@ package es.uc3m.tiw.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -95,8 +97,11 @@ public class Controller {
 		return userDAO.findByEventsId(id);
 	}
 	
+	//OK
 	@RequestMapping(method=RequestMethod.POST, value="/events")
-	public Event saveEvent(@RequestBody @Validated Event event){
+	public Event saveEvent(@RequestParam(value="category",required=true) String category, @RequestParam(value="user",required=true) Long userId,@RequestBody @Validated Event event){
+		event.setCategoryBean(categoryDAO.findByName(category));
+		event.setUser(userDAO.findOne(userId));
 		return eventDAO.save(event);
 	}
 	
@@ -106,7 +111,7 @@ public class Controller {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/events/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Event updateEvent(@PathVariable Long id, @RequestBody @Validated Event event){
+	public Event updateEvent(@RequestParam(value="category",required=true) String category, @RequestParam(value="user",required=true) Long userId,@PathVariable Long id, @RequestBody @Validated Event event){
 		Event updateEv = eventDAO.findOne(id);
 		updateEv.setDate(event.getDate());
 		updateEv.setDescription(event.getDescription());
@@ -117,6 +122,8 @@ public class Controller {
 		updateEv.setTickets(event.getTickets());
 		updateEv.setTime(event.getTime());
 		updateEv.setTitle(event.getTitle());
+		updateEv.setCategoryBean(categoryDAO.findByName(category));
+		updateEv.setUser(userDAO.findOne(userId));
 		return eventDAO.save(updateEv);
 	}
 	
