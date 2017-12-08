@@ -234,6 +234,20 @@ public class Controller {
 	}
 	
 	//OK
+	@RequestMapping(method=RequestMethod.POST, value="/api/users/{userid}/receipts/{id}/tickets")
+	public Ticket saveTickets(@RequestParam(value="event",required=true) Long eventid, @PathVariable Long userid, @PathVariable Long id, @RequestBody @Validated Ticket ticket){
+		ticket.setReceipt(receiptDAO.findOne(id));
+		ticket.setEvent(eventDAO.findOne(eventid));
+		return ticketDAO.save(ticket);
+	}
+	
+	//OK
+	@RequestMapping(method=RequestMethod.DELETE, value="/api/users/{userid}/receipts/{receiptid}/tickets/{id}")
+	public void deleteTicket(@PathVariable Long userid, @PathVariable Long id){
+		ticketDAO.delete(id);
+	}
+	
+	//OK
 	@RequestMapping(method=RequestMethod.GET, value="/api/users/{userid}/tickets")
 	public List<Ticket> getTicketsFromUser(@PathVariable Long userid){
 		return ticketDAO.findByReceiptUserId(userid);
