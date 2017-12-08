@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.uc3m.tiw.dao.CategoryDAO;
 import es.uc3m.tiw.dao.EventDAO;
+import es.uc3m.tiw.dao.ReceiptDAO;
+import es.uc3m.tiw.dao.TicketDAO;
 import es.uc3m.tiw.dao.UserDAO;
 import es.uc3m.tiw.entities.Category;
 import es.uc3m.tiw.entities.Event;
+import es.uc3m.tiw.entities.Receipt;
+import es.uc3m.tiw.entities.Ticket;
 import es.uc3m.tiw.entities.User;
 
 @RestController
@@ -33,6 +37,12 @@ public class Controller {
 	
 	@Autowired
 	CategoryDAO categoryDAO;
+	
+	@Autowired
+	TicketDAO ticketDAO;
+	
+	@Autowired
+	ReceiptDAO receiptDAO;
 	
 	//OK
 	@RequestMapping(method=RequestMethod.GET, value="/api/users")
@@ -191,4 +201,41 @@ public class Controller {
 	 * TICKETS and RECEIPTS
 	 */
 	
+	//OK
+	@RequestMapping(method=RequestMethod.GET, value="/api/users/{userid}/receipts")
+	public List<Receipt> getReceiptsFromUser(@PathVariable Long userid){
+		return receiptDAO.findByUserId(userid);
+	}
+	
+	//OK
+	@RequestMapping(method=RequestMethod.POST, value="/api/users/{userid}/receipts")
+	public Receipt saveReceipt(@RequestParam(value="event",required=true) Long eventid, @PathVariable Long userid, @RequestBody @Validated Receipt receipt){
+		receipt.setUser(userDAO.findOne(userid));
+		receipt.setEvent(eventDAO.findOne(eventid));
+		return receiptDAO.save(receipt);
+	}
+		
+	//OK
+	@RequestMapping(method=RequestMethod.GET, value="/api/users/{userid}/receipts/{id}")
+	public Receipt getReceiptFromUser(@PathVariable Long userid, @PathVariable Long id){
+		return receiptDAO.findByIdAndUserId(id, userid);
+	}
+	
+	//OK
+	@RequestMapping(method=RequestMethod.DELETE, value="/api/users/{userid}/receipts/{id}")
+	public void deleteReceiptFromUser(@PathVariable Long userid, @PathVariable Long id){
+		receiptDAO.delete(id);
+	}
+	
+	//OK
+	@RequestMapping(method=RequestMethod.GET, value="/api/users/{userid}/receipts/{id}/tickets")
+	public List<Ticket> getTicketsFromUserReceipts(@PathVariable Long userid, @PathVariable Long id){
+		return ticketDAO.findByReceiptIdAndReceiptUserId(id, userid);
+	}
+	
+	//OK
+	@RequestMapping(method=RequestMethod.GET, value="/api/users/{userid}/tickets")
+	public List<Ticket> getTicketsFromUser(@PathVariable Long userid){
+		return ticketDAO.findByReceiptUserId(userid);
+	}
 }

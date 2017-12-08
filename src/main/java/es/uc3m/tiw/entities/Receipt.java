@@ -2,6 +2,9 @@ package es.uc3m.tiw.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +21,8 @@ public class Receipt implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue
+	private Long id;
 
 	@Temporal(TemporalType.DATE)
 	private Date date;
@@ -28,25 +32,28 @@ public class Receipt implements Serializable {
 	//bi-directional many-to-one association to Event
 	@ManyToOne
 	@JoinColumn(name="idevent")
+	@JsonIgnore
 	private Event event;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="iduser")
+	@JsonIgnore
 	private User user;
 
 	//bi-directional many-to-one association to Ticket
 	@OneToMany(mappedBy="receipt")
+	@JsonIgnore
 	private List<Ticket> tickets;
 
 	public Receipt() {
 	}
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
