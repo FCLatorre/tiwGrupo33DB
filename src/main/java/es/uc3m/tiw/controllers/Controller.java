@@ -1,8 +1,7 @@
 package es.uc3m.tiw.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -87,10 +86,15 @@ public class Controller {
 	
 	//OK
 	@RequestMapping(method=RequestMethod.GET, value="/api/events")
-	public List<Event> getEvents(@RequestParam(value="email",required=false) String email, @RequestParam(value="password",required=false) String password){
-		if(email != null && password != null) {
-			//Implementar filtros de búsqueda
-			return eventDAO.findAll();
+	public List<Event> getEvents(@RequestParam(value="query",required=false) String query){
+		if(query != null) {
+			List<Event> returning = new ArrayList<Event>();
+			List<Event> events = eventDAO.findAll();
+			for(Event ev : events){
+				if((ev.getTitle().contains(query) || ev.getDescription().contains(query) || ev.getDate().toString().contains(query) || ev.getLocation().contains(query) || ev.getRoom().contains(query) || ev.getCategoryBean().getName().contains(query)))
+					returning.add(ev);
+			}
+			return returning;
 		} else {
 			return eventDAO.findAll();
 		}
