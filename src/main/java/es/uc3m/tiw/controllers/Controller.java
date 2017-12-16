@@ -371,20 +371,29 @@ public class Controller {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/api/categories")
 	@ResponseBody
-	public ResponseEntity<List<Category>> getCategories(@RequestParam(value="name",required=true) String name){
+	public ResponseEntity<List<Category>> getCategories(@RequestParam(value="query",required=false) String query){
 		
-		/*Aquí hay un "problema" con la condicion if-else al haber solo un atributo en la tabla*/
-		//Category categoriesFindByName = categoryDAO.findByName(name);
+		List<Category> allCategories = categoryDAO.findAll();
 		
-		List<Category> categoriesFind = categoryDAO.findAll();
-		
-		if(name != null) {
+		if(query != null) {
+			
+			List<Category> returning = new ArrayList<Category>();
+			
+			List<Category> categories = categoryDAO.findAll();
+			
+			for(Category cat : categories){
 
-			return ResponseEntity.ok(categoriesFind);
+				if((cat.getName().contains(query))||(cat.getEvents().contains(query)))
+
+					returning.add(cat);
+
+			}
+
+			return ResponseEntity.ok(returning);
 
 		} else {
 
-			return ResponseEntity.ok(categoriesFind);
+			return ResponseEntity.ok(allCategories);
 
 		}
 
