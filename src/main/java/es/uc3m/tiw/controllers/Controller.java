@@ -585,6 +585,35 @@ public class Controller {
 		return new ResponseEntity<List<Ticket>>(HttpStatus.BAD_REQUEST);
 
 	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/api/tickets")
+	@ResponseBody
+	public ResponseEntity<List<Ticket>> getAllTickets(@RequestParam(value="query",required=false) String query){
+
+		List<Ticket> allTickets = ticketDAO.findAll();
+		
+		if(query != null) {
+
+			List<Ticket> returning = new ArrayList<Ticket>();
+
+			List<Ticket> tickets = ticketDAO.findAll();
+
+			for(Ticket tick : tickets){
+
+				if((tick.getName().contains(query) || tick.getEvent().toString().contains(query) || tick.getReceipt().toString().contains(query) || tick.getId().toString().contains(query)))
+
+					returning.add(tick);
+
+			}
+
+			return ResponseEntity.ok(returning);
+
+		} else {
+
+			return ResponseEntity.ok(allTickets);
+
+		}
+
+	}
 
 }
-
