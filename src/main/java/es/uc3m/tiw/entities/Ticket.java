@@ -3,7 +3,8 @@ package es.uc3m.tiw.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * The persistent class for the ticket database table.
@@ -22,13 +23,15 @@ public class Ticket implements Serializable {
   // bi-directional many-to-one association to Event
   @ManyToOne
   @JoinColumn(name = "idevent")
-  @JsonIgnore
+  @JsonBackReference
+  //@JsonIgnore
   private Event event;
 
   // bi-directional many-to-one association to Receipt
   @ManyToOne
   @JoinColumn(name = "idreceipt")
-  @JsonIgnore
+  @JsonBackReference
+  //@JsonIgnore
   private Receipt receipt;
 
   public Ticket() {}
