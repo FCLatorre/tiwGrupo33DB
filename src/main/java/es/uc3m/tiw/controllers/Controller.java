@@ -118,7 +118,7 @@ public class Controller {
 			
 		}
 		
-		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 
 	}
 
@@ -131,7 +131,8 @@ public class Controller {
 		
 		if(user!=null){
 			
-			return ResponseEntity.ok(userSaved);
+			//return ResponseEntity.ok(userSaved);
+			return new ResponseEntity<User>(userSaved,HttpStatus.CREATED);
 		
 		}
 		
@@ -147,11 +148,11 @@ public class Controller {
 		if(id!=null){
 			
 			userDAO.delete(id);
-			ResponseEntity.ok();
+			ResponseEntity.status(HttpStatus.NO_CONTENT);
 			
 		}
 		
-		ResponseEntity.status(HttpStatus.BAD_REQUEST);
+		ResponseEntity.status(HttpStatus.NOT_FOUND);
 
 	}
 	
@@ -228,7 +229,7 @@ public class Controller {
 			
 		}
 		
-		return new ResponseEntity<Event>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Event>(HttpStatus.NOT_FOUND);
 
 	}
 
@@ -245,7 +246,7 @@ public class Controller {
 			
 		}
 		
-		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 
 	}
 
@@ -262,7 +263,8 @@ public class Controller {
 
 			event.setUser(userDAO.findOne(userId));
 			
-			return ResponseEntity.ok(eventSaved);
+			//return ResponseEntity.ok(eventSaved);
+			return new ResponseEntity<Event>(eventSaved,HttpStatus.CREATED);
 		}
 
 		return new ResponseEntity<Event>(HttpStatus.BAD_REQUEST);
@@ -277,11 +279,11 @@ public class Controller {
 		if(id!=null){
 			
 			eventDAO.delete(id);
-			ResponseEntity.ok();
+			ResponseEntity.status(HttpStatus.NO_CONTENT);
 			
 		}
 		
-		ResponseEntity.status(HttpStatus.BAD_REQUEST);
+		ResponseEntity.status(HttpStatus.NOT_FOUND);
 
 	}
 
@@ -337,7 +339,7 @@ public class Controller {
 			
 		}
 		
-		return new ResponseEntity<List<Event>>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<List<Event>>(HttpStatus.NOT_FOUND);
 
 	}
 	
@@ -354,7 +356,7 @@ public class Controller {
 			
 		}
 		
-		return new ResponseEntity<Event>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Event>(HttpStatus.NOT_FOUND);
 
 	}
 	
@@ -411,7 +413,7 @@ public class Controller {
 			return ResponseEntity.ok(categoryById);
 			
 		}
-		return new ResponseEntity<Category>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
 
 	}
 	
@@ -427,7 +429,7 @@ public class Controller {
 			return ResponseEntity.ok(eventsFromCategory);
 			
 		}
-		return new ResponseEntity<List<Event>>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<List<Event>>(HttpStatus.NOT_FOUND);
 
 	}
 	
@@ -443,7 +445,7 @@ public class Controller {
 			return ResponseEntity.ok(eventFromCategory);
 			
 		}
-		return new ResponseEntity<Event>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Event>(HttpStatus.NOT_FOUND);
 
 	}
 	
@@ -456,7 +458,8 @@ public class Controller {
 		
 		if(category!=null){
 			
-			return ResponseEntity.ok(categorySaved);
+			//return ResponseEntity.ok(categorySaved);
+			return new ResponseEntity<Category>(categorySaved,HttpStatus.CREATED);
 			
 		}
 		
@@ -472,11 +475,11 @@ public class Controller {
 		if(name!=null){
 			
 			categoryDAO.delete(categoryDAO.findByName(name));
-			ResponseEntity.ok();
+			ResponseEntity.status(HttpStatus.NO_CONTENT);
 			
 		}
 		
-		ResponseEntity.status(HttpStatus.BAD_REQUEST);
+		ResponseEntity.status(HttpStatus.NOT_FOUND);
 		
 	}
 
@@ -502,7 +505,7 @@ public class Controller {
 			return ResponseEntity.ok(receiptsFromUser);
 		
 		}
-		return new ResponseEntity<List<Receipt>>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<List<Receipt>>(HttpStatus.NOT_FOUND);
 
 	}
 	
@@ -519,10 +522,10 @@ public class Controller {
 		if(userid!=null && id!=null){
 			
 			receiptDAO.delete(id);
-			ResponseEntity.ok();
+			ResponseEntity.status(HttpStatus.NO_CONTENT);
 		}
 		
-		ResponseEntity.status(HttpStatus.BAD_REQUEST);
+		ResponseEntity.status(HttpStatus.NOT_FOUND);
 		
 	}
 	
@@ -537,7 +540,7 @@ public class Controller {
 			
 			return ResponseEntity.ok(ticketsFromUserReceipts);
 		}
-		return new ResponseEntity<List<Ticket>>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<List<Ticket>>(HttpStatus.NOT_FOUND);
 
 	}
 
@@ -554,7 +557,8 @@ public class Controller {
 
 			ticket.setEvent(eventDAO.findOne(eventid));
 			
-			return ResponseEntity.ok(ticketSaved);
+			//return ResponseEntity.ok(ticketSaved);
+			return new ResponseEntity<Ticket>(ticketSaved,HttpStatus.CREATED);
 			
 		}
 
@@ -570,11 +574,11 @@ public class Controller {
 		if(userid!=null && id!=null){
 			
 			ticketDAO.delete(id);
-			ResponseEntity.ok();
+			ResponseEntity.status(HttpStatus.NO_CONTENT);
 	
 		}
 	
-	ResponseEntity.status(HttpStatus.BAD_REQUEST);
+	ResponseEntity.status(HttpStatus.NOT_FOUND);
 	
 	}
 	
@@ -591,7 +595,7 @@ public class Controller {
 			
 		}
 		
-		return new ResponseEntity<List<Ticket>>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<List<Ticket>>(HttpStatus.NOT_FOUND);
 
 	}
 	
